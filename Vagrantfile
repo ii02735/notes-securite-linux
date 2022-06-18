@@ -14,6 +14,15 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "bento/debian-11.2"
 
+  # installation du plugin docker-compose, 
+  # Pour plus d'info : https://github.com/leighmcculloch/vagrant-docker-compose
+  config.vagrant.plugins = "vagrant-docker-compose"
+
+  # grâce au plugin on peut installer docker et docker-compose
+  # via un provisioner
+  config.vm.provision :docker
+  config.vm.provision :docker_compose
+
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
@@ -63,8 +72,8 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install -y git
+  SHELL
 end

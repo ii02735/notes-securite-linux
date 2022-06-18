@@ -98,6 +98,8 @@ Des solutions :
 Docker est en soit une plateforme pas vraiment non-sécurisée, au contraire.
 Les vulnérabilités peuvent provenir d'une mauvaise configuration (hôte, containers...), on d'une mauvaise compréhension sur les ressources qu'il faudrait sécuriser.
 
+Toutes les ressources de Docker se trouvent sur le chemin du système suivant : `/var/lib/docker`
+
 Pour pouvoir utiliser Docker de manière sécurisé sur son environnement de production, il est nécessaire de se focaliser sur 3 points :
 
 1. L'hôte de Docker
@@ -111,6 +113,8 @@ Des ressources intéressantes qui présentent les vulnérabilités de Docker :
 **Attention : malgré le fait qu'on voit des vulnérabilités en baisse, cela ne veut pas dire qu'il faut partir du postulat qu'il n'y a rien à renforcer / sécuriser davantage !**
 
 - CIS (Center for Internet Security), qui présente un benchmark : https://www.cisecurity.org/benchmark/docker
+
+### 1. L'hôte de Docker
 ### 3. Les containers
 
 - Lorsqu'on utilise des containers Docker sur son système, il est toujours important de connaître **la source des images**.
@@ -169,3 +173,8 @@ Des outils d'audit :
 - InSpec
 
 Les outils d'audit se basent en général sur les données remontées par le CIS.
+
+# Mise en pratique
+
+Pour appliquer quelques mesures ci-dessus, notamment pour la sécurisation des containers Docker, une VM sous Vagrant va être utilisée.
+
