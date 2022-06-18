@@ -1,4 +1,4 @@
-## Avoir les derniers packages installés
+# Avoir les derniers packages installés
 
 - Permet d'installer des mises à jour de sécurité automatiquement : 
 
@@ -22,7 +22,7 @@ dpkg-reconfigure --priority=low unattended-upgrades
 	   - Pour vérifier l'exécution de la configuration appliquée : unattended-upgrade --dry-run --debug		 		
 	
 
-## L'accès SSH
+# L'accès SSH
 
 À l'origine, SSH est censé être un protocole sécurisé, mais tend à avoir des failles en raison de mauvaises pratiques.
 
@@ -42,14 +42,14 @@ passwd admin
   - Mettre `PermitRootLogin` à `No`
   - Mettre `PasswordAuthentication` à `No`
 
-### Passer par un proxy
+## Passer par un proxy
 
 SSH peut être suffisant s'il n'y a qu'une seule personne qui gère le serveur.
 Mais si **l'accès doit être partagé**, il est toujours utile de passer par un **proxy pour l'authentification**.
 
 Un outil intéressant : **Telebot**, qui est un proxy 2FA, et est open-source et gratuit.
 
-## Exposition des services
+# Exposition des services
 
 Les services sont des processus qui sont continuellement actifs, et qui sont attachés sur le réseau.
 Pour lister ceux qui sont actifs : `ss -ltpn`. **Toujours exposer les services nécessaires !**
@@ -59,7 +59,7 @@ Des services pertinents :
 - Le serveur SSH (port 22 ou le changer s'il le faut)
 - Un serveur HTTP (port 80, pour une application -> **préférer SSL/TLS (port 443)**)
 
-## Configuration d'un firewall (avec UFW)
+# Configuration d'un firewall (avec UFW)
 
 Uncomplicated Firewall est un outil qui permet de créer un firewall sans trop de complications (par rapport à `iptables`).
 
@@ -69,7 +69,7 @@ Uncomplicated Firewall est un outil qui permet de créer un firewall sans trop d
 
 **ATTENTION : CELA NE PREND PAS EN COMPTE LES CONTAINERS DOCKER PAR DÉFAUT !**
 
-## Utiliser un reverse-proxy
+# Utiliser un reverse-proxy
 
 Un reverse-proxy peut-être utile si on souhaite exposer une application non-sécurisée (qui tourne sur du HTTP).
 Il s'agit d'un serveur entre le client et l'application web. Il faut quand-même ajouter une couche de sécurité en HTTPS pour le reverse-proxy afin que le trafic soit sécurisée (parce que l'application ne possède pas de certificat TLS actif)
@@ -79,22 +79,39 @@ Des reverse-proxy intéressants :
 - Le reverse-proxy du serveur NGINX
 - Le gestionnaire de reverse-proxy de NGINX (NGINX reverse-proxy manager), qui est une interface intuitive
 
-## VPN et DMZ
+# VPN et DMZ
 
 Il est important de **priver** les interfaces d'administration (NGINX reverse-proxy manager par exemple), via un DMZ ou un VPN.
 
 Des exemples de VPN : WireGuard, tailscale, OpenVPN 
 
-## Isoler ses applications
+# Isoler ses applications
 
 Éviter que ses applications n'intéragissent trop avec le système.
 Des solutions :
 
-- AppArmor, qui est un MAC permettant de définir des règles de sécurité autorisant ou refusant l'accès à des ressourcer
+- AppArmor, qui est un MAC permettant de définir des règles de sécurité autorisant ou refusant l'accès à des ressources
 - Les containers Docker
 
+# Docker
 
-## Les containers Docker
+Docker est en soit une plateforme pas vraiment non-sécurisée, au contraire.
+Les vulnérabilités peuvent provenir d'une mauvaise configuration (hôte, containers...), on d'une mauvaise compréhension sur les ressources qu'il faudrait sécuriser.
+
+Pour pouvoir utiliser Docker de manière sécurisé sur son environnement de production, il est nécessaire de se focaliser sur 3 points :
+
+1. L'hôte de Docker
+2. Le démon Docker
+3. Les containers
+
+Des ressources intéressantes qui présentent les vulnérabilités de Docker :
+
+- CVE (Common Vulnerabilities and Exposure), qui précise les vulnérabilités dans le code, des expositions de données : https://www.cvedetails.com/product/28125/Docker-Docker.html?vendor_id=13534
+
+**Attention : malgré le fait qu'on voit des vulnérabilités en baisse, cela ne veut pas dire qu'il faut partir du postulat qu'il n'y a rien à renforcer / sécuriser davantage !**
+
+- CIS (Center for Internet Security), qui présente un benchmark : https://www.cisecurity.org/benchmark/docker
+### 3. Les containers
 
 - Lorsqu'on utilise des containers Docker sur son système, il est toujours important de connaître **la source des images**.
 Certaines d'entre-elles peuvent être **obsolètes** par exemple.
@@ -103,7 +120,7 @@ L'outil **watchtower** permet d'exécuter automatiquement des mises à jour sur 
 
 **Attention :** les containers sont **immutables**, ils doivent donc être au préalable, **détruits** avant de faire une mise à jour.
 
-### Prévenir l'escalade en root
+#### **Prévenir l'escalade en root**
 
 - Créer et utiliser un utilisateur **non-privilégié** : 
 
@@ -145,5 +162,10 @@ Mais il est possible de les isoler complètement à l'aide de l'option `"com.doc
 ### Créer un audit de sécurité
 
 Il très recommandé de lancer un audit de sécurité sur les containers qu'on souhaite déployer en production.
-Un exemple d'outil d'audit de containers : **[docker-security-bench](https://github.com/docker-security-bench)**
-Poursuivre sur https://www.youtube.com/watch?v=mQkVB6KMHCg
+
+Des outils d'audit : 
+
+- **[docker-security-bench](https://github.com/docker-security-bench)**
+- InSpec
+
+Les outils d'audit se basent en général sur les données remontées par le CIS.
