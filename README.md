@@ -128,7 +128,7 @@ Il très recommandé de lancer un audit de sécurité sur les conteneurs Docker 
 
 Des outils d'audit : 
 
-- **[docker-bench-security](https://github.com/docker-bench-security)**
+- **[docker-bench-security](https://github.com/docker/docker-bench-security)**
 
 - Chef InSpec : qui est un outil permettant de réaliser un audit sur **le système**.
 
