@@ -128,7 +128,7 @@ Il très recommandé de lancer un audit de sécurité sur les conteneurs Docker 
 
 Des outils d'audit : 
 
-- **[docker-security-bench](https://github.com/docker-security-bench)**
+- **[docker-bench-security](https://github.com/docker-bench-security)**
 
 - Chef InSpec : qui est un outil permettant de réaliser un audit sur **le système**.
 
@@ -206,11 +206,11 @@ Pour appliquer quelques mesures ci-dessus, notamment pour la sécurisation des c
 
 ## Manipulations
 
-- Installation de **docker-security-bench**
+- Installation de **docker-bench-security**
 
   - Via : `git clone git clone https://github.com/docker/docker-bench-security`
 
-- Exécution de `docker-security-bench.sh`
+- Exécution de `docker-bench-security.sh`
 
   - Ce script explore chaque couche de Docker (hôte, conteneurs), et établit un rapport de sécurité, expliquant les points à être améliorés.
 
@@ -227,4 +227,4 @@ Pour appliquer quelques mesures ci-dessus, notamment pour la sécurisation des c
    inspec exec cis-docker-benchmark
    ```
 
-   Le même travail est réalisé par **docker-security-bench**. Ces deux utilitaires se basent sur le CIS. À la différence que InSpec fournit un rapport plus détaillé sur les actions à entreprendre.
+   Le même travail est réalisé par **docker-bench-security**. Ces deux utilitaires se basent sur le CIS. À la différence que InSpec fournit un rapport plus détaillé sur les actions à entreprendre.
